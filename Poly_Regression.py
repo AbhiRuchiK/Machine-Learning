@@ -55,6 +55,19 @@ for i in range(1,len(FormattedData)):
 TrainingData = NecessaryData[0:int(0.75*len(NecessaryData))]
 MaxData = np.array(max(TrainingData))
 TrainingData = np.array(TrainingData/ MaxData)
+TrainingDataSquare=[]
+
+for i in range(len(TrainingData)):
+    t=[]
+    for j in range(len(TrainingData[i])):
+        t.append(TrainingData[i][j])
+        t.append(TrainingData[i][j]*TrainingData[i][j])
+        
+    TrainingDataSquare.append(t)
+
+print(TrainingDataSquare[2])
+
+
 
 TrainingDataPrice = NecessaryDataPrice[0:int(0.75*len(NecessaryData))]
 MaxData = np.array(max(TrainingDataPrice))
@@ -68,7 +81,6 @@ TestingData = np.array(TestingData/MaxData)
 TestingDataPrice = NecessaryDataPrice[(int(0.75*len(NecessaryData))):]
 MaxData = max(TestingDataPrice)
 TestingDataPrice = np.array(TestingDataPrice)
-#print(TestingDataPrice)
 TestingDataPrice = (TestingDataPrice).T
 print(TestingDataPrice)
 
@@ -80,27 +92,27 @@ Lembda = 1
 #print(TrainingData)
 #print(np.size(TrainingData),np.size(NecessaryData))
 #Going to code for Differentiation of MSE with respect to theta1
-for iteration in range(0,50):
+for iteration in range(0,500):
     OldJ = 0
     NewJ = 0
     DJ = 0
-   
+    
     IntermediateResult = np.dot(TrainingData,Thetas)
-    #print(IntermediateResult)
     CloseResult = IntermediateResult - TrainingDataPrice
     s = np.size(CloseResult)    
     OldJ = (np.dot(CloseResult.T,CloseResult))+(Lembda*(np.dot(Thetas.T,Thetas)))/(s)  
    
-    DJ = np.dot(2*(CloseResult).T,TrainingData)
+    DJ = np.dot(2*(CloseResult).T,CloseResult)
     DJ = DJ/s
-   
+
+    print("\n value of DJ = {}".format(DJ))
+    
     Thetas = Thetas - (LR * (DJ.T))
-       
+    
     IntermediateResult = np.dot(TrainingData,Thetas)
-    CloseResult = IntermediateResult - TrainingDataPrice
-    s = np.size(CloseResult)    
+    CloseResult = IntermediateResult - TrainingDataPrice    
     NewJ = (np.dot(CloseResult.T,CloseResult))+(Lembda*(np.dot(Thetas.T,Thetas)))/(s)
-   
+    
     if (abs(OldJ - NewJ)) < Epsilon:
         break
    
