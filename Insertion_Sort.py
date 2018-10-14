@@ -1,4 +1,4 @@
-import numpy as n
+import numpy as n #for vectorized calculation
 #a= [int(x) for x in input("Enter values : ").split("")]
 a=list(map(int,input().split()))
 
@@ -18,7 +18,7 @@ while i != (n.size(a)):
             break
     i=i+1
     
-print("sorted values is: {}".format(a))
+print("sorted values is: {}".format(a)) #its printing the values
 
 
 
